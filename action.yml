@@ -50,7 +50,8 @@ runs:
       uses: actions/cache@v4
       with:
         path: .venv
-        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}${{ inputs.install-args }}
+        # hashfiles (${{ hashFiles('**/poetry.lock') }}) is not supported in Gitea Actions yet
+        key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-$( sha256sum poetry.lock | cut -d ' ' -f 1)${{ inputs.install-args }}
         # Restore cache with this prefix if not exact match with key
         # Note cache-hit returns false in this case, so the below step will run
         restore-keys: |
